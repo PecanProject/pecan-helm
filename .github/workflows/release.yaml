@@ -14,8 +14,9 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Get dependencies
+      - name: Setup Helm
         run: |
+          helm plugin install https://github.com/chartmuseum/helm-push.git
           helm repo add bitnami https://charts.bitnami.com/bitnami
           helm repo add ncsa https://opensource.ncsa.illinois.edu/charts/
           helm dep build
@@ -31,14 +32,11 @@ jobs:
           echo "::set-output name=version::$version"
           echo "::set-output name=changelog::$changelog"
 
-      - name: Publish to NCSA OpenSource
-        uses: bsord/helm-push@v3
-        with:
-          username: ${{ secrets.HELM_USERNAME }}
-          password: ${{ secrets.HELM_PASSWORD }}
-          repository-url: "https://opensource.ncsa.illinois.edu/charts"
-          chart-folder: "."
-          force: true
+      - name: package helm chart
+        run: |
+          helm lint .
+          helm package .
+          helm inspect chart *.tgz
 
       - name: create release
         uses: actions/create-release@v1
@@ -60,3 +58,10 @@ jobs:
           asset_path: ./pecan-${{ steps.release_info.outputs.version }}.tgz
           asset_name: pecan-${{ steps.release_info.outputs.version }}.tgz
           asset_content_type: application/zip
+
+      - name: Publish to NCSA OpenSource
+        env:
+          HELM_REPO_USERNAME=${{ secrets.HELM_USERNAME }}
+          HELM_REPO_PASSWORD=${{ secrets.HELM_PASSWORD }}
+        run: |
+          helm cm-push ./pecan-${{ steps.release_info.outputs.version }}.tgz https://opensource.ncsa.illinois.edu/charts
