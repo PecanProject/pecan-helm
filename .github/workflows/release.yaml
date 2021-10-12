@@ -61,7 +61,7 @@ jobs:
 
       - name: Publish to NCSA OpenSource
         env:
-          HELM_REPO_USERNAME=${{ secrets.HELM_USERNAME }}
-          HELM_REPO_PASSWORD=${{ secrets.HELM_PASSWORD }}
+          HELM_REPO_USERNAME: ${{ secrets.HELM_USERNAME }}
+          HELM_REPO_PASSWORD: ${{ secrets.HELM_PASSWORD }}
         run: |
           helm cm-push ./pecan-${{ steps.release_info.outputs.version }}.tgz https://opensource.ncsa.illinois.edu/charts
