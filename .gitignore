@@ -1,0 +1,17 @@
+# development
+.idea
+
+# generated helm charts folder
+charts
+
+# helm package
+.cr-release-packages
+bety-*.tgz
+
+# custom values
+secrets-*.yaml
+values-*.yaml
+*.values.yaml
+
+# database dumps
+*.sql

@@ -1,0 +1,50 @@
+apiVersion: v2
+type: application
+
+# Information about chart.
+name: pecan
+icon: https://isda.ncsa.illinois.edu/~kooper/charts/images/pecan.png
+home: https://www.pecanproject.org
+description: >
+  PEcAn is not itself an ecosystem model, and it can be used to with a 
+  variety of different ecosystem models; integrating a model involves
+  writing a wrapper to convert inputs and outputs to and from the
+  standards used by PEcAn. Currently, PEcAn supports multiple models.
+
+# This is the chart version. This version number should be incremented each time you make changes
+# to the chart and its templates, including the app version.
+# Versions are expected to follow Semantic Versioning (https://semver.org/)
+version: 0.5.0
+
+# This is the version number of the application being deployed. This version number should be
+# incremented each time you make changes to the application. Versions are not expected to
+# follow Semantic Versioning. They should reflect the version the application is using.
+appVersion: "1.7.2"
+
+# List of people that maintain this helm chart.
+maintainers:
+  - name: Rob Kooper
+    email: kooper@illinois.edu
+
+# location of source code
+sources:
+  - https://github.com/pecanproject/bety
+
+# Dependencies for chart. Some of the dependencies are only installed if they
+# are enabled.
+dependencies:
+- name: rabbitmq
+  version: ~6
+  repository: https://charts.bitnami.com/bitnami
+  condition: rabbitmq.enabled
+- name: betydb
+  version: ~0.5
+  repository: https://opensource.ncsa.illinois.edu/charts/
+  condition: betydb.enabled
+
+annotations:
+  artifacthub.io/links: |
+    - name: Helm Chart
+      url: https://github.com/pecanproject/pecan-helm
+  artifacthub.io/changes: |
+    - initial release of PEcAn helm chart
