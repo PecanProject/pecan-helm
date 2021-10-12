@@ -64,4 +64,4 @@ jobs:
           HELM_REPO_USERNAME: ${{ secrets.HELM_USERNAME }}
           HELM_REPO_PASSWORD: ${{ secrets.HELM_PASSWORD }}
         run: |
-          helm cm-push ./pecan-${{ steps.release_info.outputs.version }}.tgz https://opensource.ncsa.illinois.edu/charts
+          helm cm-push --force ./pecan-${{ steps.release_info.outputs.version }}.tgz https://opensource.ncsa.illinois.edu/charts
