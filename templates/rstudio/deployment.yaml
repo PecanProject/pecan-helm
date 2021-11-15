@@ -4,7 +4,7 @@ kind: Deployment
 metadata:
   name: {{ include "pecan.fullname" . }}-rstudio
   labels:
-{{ include "pecan.labels" . | indent 4 }}
+    {{- include "pecan.labels" . | nindent 4 }}
 spec:
   replicas: 1
   selector:
@@ -23,17 +23,17 @@ spec:
     {{- end }}
       initContainers:
         - name: check-rabbitmq
-          image: "{{ .Values.image.project }}/check:{{ .Values.image.tag }}"
+          image: "{{ $.Values.image.checks }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           command: ['./check_rabbitmq']
           env:
-{{ include "pecan.env.rabbitmq" . | indent 12 }}
+            {{- include "pecan.env.rabbitmq" . | nindent 12 }}
         - name: check-postgresql
-          image: "{{ .Values.image.project }}/check:{{ .Values.image.tag }}"
+          image: "{{ $.Values.image.checks }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           command: ['./check_postgresql']
           env:
-{{ include "pecan.env.postgresql" . | indent 12 }}
+            {{- include "pecan.env.postgresql" . | nindent 12 }}
       containers:
         - name: {{ .Chart.Name }}-rstudio-nginx
           image: "nginx:alpine"
@@ -56,13 +56,13 @@ spec:
           resources:
             {{- toYaml .Values.rstudio.resources | nindent 12 }}
         - name: {{ .Chart.Name }}-rstudio
-          image: "{{ .Values.image.project }}/base:{{ .Values.image.tag }}"
+          image: "{{ .Values.image.project }}/base:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           command: ["/init"]
           env:
-{{ include "pecan.env.rabbitmq" . | indent 12 }}
-{{ include "pecan.env.postgresql" . | indent 12 }}
-{{ include "pecan.env.cluster" . | indent 12 }}
+            {{- include "pecan.env.rabbitmq" . | nindent 12 }}
+            {{- include "pecan.env.postgresql" . | nindent 12 }}
+            {{- include "pecan.env.cluster" . | nindent 12 }}
             - name: RABBITMQ_MGMT_PATH
               value: {{ .Values.rabbitmq.ingress.path | default "/" | quote }}
             - name: USER

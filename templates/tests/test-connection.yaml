@@ -3,7 +3,7 @@ kind: Pod
 metadata:
   name: "{{ include "pecan.fullname" . }}-test-connection"
   labels:
-{{ include "pecan.labels" . | indent 4 }}
+    {{- include "pecan.labels" . | nindent 4 }}
   annotations:
     "helm.sh/hook": test-success
 spec:

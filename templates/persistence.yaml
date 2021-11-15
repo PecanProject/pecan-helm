@@ -4,7 +4,7 @@ apiVersion: v1
 metadata:
   name: {{ include "pecan.fullname" . }}-data
   labels:
-{{ include "pecan.labels" . | indent 4 }}
+    {{- include "pecan.labels" . | nindent 4 }}
 spec:
   accessModes:
     - ReadWriteMany

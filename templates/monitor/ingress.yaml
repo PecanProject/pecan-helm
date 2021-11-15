@@ -4,7 +4,7 @@ kind: Ingress
 metadata:
   name: {{ include "pecan.fullname" . }}-monitor
   labels:
-{{ include "pecan.labels" . | indent 4 }}
+    {{- include "pecan.labels" . | nindent 4 }}
   {{- with .Values.ingress.annotations }}
   annotations:
     {{- toYaml . | nindent 4 }}

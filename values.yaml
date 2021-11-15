@@ -1,4 +1,19 @@
 ## -------------------------------------------------------------------------------
+## PECAN COMMON VARIABLES
+## -------------------------------------------------------------------------------
+
+image:
+  project: pecan
+  tag: null
+  checks: "ncsa/checks:1.0.0"
+  pullPolicy: IfNotPresent
+
+imagePullSecrets: []
+
+nameOverride: ""
+fullnameOverride: ""
+
+## -------------------------------------------------------------------------------
 ## CLUSTER CONFIGURATION
 ## -------------------------------------------------------------------------------
 
@@ -97,20 +112,6 @@ rabbitmq:
     enabled: false
     hostName: rabbitmq.example.com
     path: /
-
-## -------------------------------------------------------------------------------
-## PECAN COMMON VARIABLES
-## -------------------------------------------------------------------------------
-
-image:
-  project: pecan
-  tag: 1.8.0
-  pullPolicy: IfNotPresent
-
-imagePullSecrets: []
-
-nameOverride: ""
-fullnameOverride: ""
 
 ## -------------------------------------------------------------------------------
 ## INGRESS RULES

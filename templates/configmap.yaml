@@ -3,7 +3,7 @@ kind: ConfigMap
 metadata:
   name: {{ include "pecan.fullname" . }}-config
   labels:
-{{ include "pecan.labels" . | indent 4 }}
+    {{- include "pecan.labels" . | nindent 4 }}
 data:
   database.yaml: |-
     production:

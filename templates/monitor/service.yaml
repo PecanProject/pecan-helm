@@ -3,7 +3,7 @@ kind: Service
 metadata:
   name: {{ include "pecan.fullname" . }}-monitor
   labels:
-{{ include "pecan.labels" . | indent 4 }}
+    {{- include "pecan.labels" . | nindent 4 }}
 spec:
   type: {{ .Values.monitor.service.type }}
   ports:

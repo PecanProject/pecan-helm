@@ -31,18 +31,17 @@ spec:
         - name: check-rabbitmq
           image: "{{ $.Values.image.project }}/check:{{ $.Values.image.tag }}"
           imagePullPolicy: {{ $.Values.image.pullPolicy }}
-          command: ['./check_rabbitmq']
           env:
-{{ $rabbitmqEnv | indent 12 }}
+            {{ $rabbitmqEnv | nindent 12 }}
       containers:
         - name: {{ $.Chart.Name }}-model-{{ $key }}
-          image: "{{ .project | default $.Values.image.project }}/{{ .image }}:{{ .tag | default $.Values.image.tag }}"
+          image: "{{ .project | default $.Values.image.project }}/{{ .image }}:{{ .tag | default ( $.Values.image.tag | default $.Chart.AppVersion ) }}"
           imagePullPolicy: {{ $.Values.image.pullPolicy }}
           volumeMounts:
             - name: data
               mountPath: /data
           env:
-{{ $rabbitmqEnv | indent 12 }}
+            {{ $rabbitmqEnv | nindent 12 }}
 {{- if .env }}
             {{- toYaml .env | nindent 12 }}
 {{- end }}

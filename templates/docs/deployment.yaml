@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: {{ include "pecan.fullname" . }}-docs
   labels:
-{{ include "pecan.labels" . | indent 4 }}
+    {{- include "pecan.labels" . | nindent 4 }}
 spec:
   replicas: {{ .Values.docs.replicaCount | default 1 }}
   selector:
@@ -22,7 +22,7 @@ spec:
     {{- end }}
       containers:
         - name: {{ .Chart.Name }}
-          image: "{{ .Values.image.project }}/docs:{{ .Values.image.tag }}"
+          image: "{{ .Values.image.project }}/docs:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - name: pecan-docs
