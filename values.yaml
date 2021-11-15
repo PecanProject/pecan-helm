@@ -64,10 +64,6 @@ models:
     enabled: true
     image: model-ed2-2.2.0
     replicaCount: 1
-  ed2-git:
-    enabled: true
-    image: model-ed2-git
-    replicaCount: 1
   maespa-git:
     enabled: true
     image: model-maespa-git

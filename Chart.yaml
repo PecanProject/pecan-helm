@@ -14,7 +14,7 @@ description: >
 # This is the chart version. This version number should be incremented each time you make changes
 # to the chart and its templates, including the app version.
 # Versions are expected to follow Semantic Versioning (https://semver.org/)
-version: 0.5.1
+version: 0.5.2
 
 # This is the version number of the application being deployed. This version number should be
 # incremented each time you make changes to the application. Versions are not expected to
@@ -48,5 +48,4 @@ annotations:
       url: https://github.com/pecanproject/pecan-helm
   artifacthub.io/license: BSD-3-Clause
   artifacthub.io/changes: |
-    - Fixes bad version numbers of PEcAn images
-    - Add BSD-3 License to chart
+    - Removed ED git, image does not exist anymore

@@ -88,6 +88,9 @@ $ helm install my-release ncsa/pecan --set persistence.existingClaim=PVC_NAME
 
 ## ChangeLog
 
+### 0.5.2
+- Removed ED git, image does not exist anymore
+
 ### 0.5.1
 - Fixes bad version numbers of PEcAn images
 - Add BSD-3 License to chart
