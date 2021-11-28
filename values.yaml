@@ -21,13 +21,9 @@ fullnameOverride: ""
 clustername: demo
 
 ## clusterfqdn is set to the name that is stored in the machines table. This
-## should be a Fully Qualified Domain Name. Probably want to set:
-## betydb.ingress.hostName to the same value.
+## should be a Fully Qualified Domain Name. Probably want to add this to:
+## betydb.ingress.hosts and ingress.hosts.
 clusterfqdn: pecan.localhost
-
-## enableIngress if this is set to true all pieces of pecan will be visible on
-## clusterfqdn. Probably want to set: betydb.ingress.enabled to the same value.
-enableIngress: false
 
 ## initializeData should be set to true to load demo data.
 initializeData: true
@@ -35,9 +31,9 @@ initializeData: true
 ## rstudioUsers is set to a list of rstudio users, each with their own instance
 ## of rstudio. If not set no instance of rstudio is created. The list will need
 ## 2 parameters, username and password.
-rstudioUsers:
-  - username: carya
-    password: illinois
+rstudioUsers: []
+  # - username: carya
+  #   password: illinois
 
 ## -------------------------------------------------------------------------------
 ## PECAN MODELS
@@ -89,7 +85,8 @@ betydb:
 
     ## hostName used for the ingress rules (betydb is set below), best set to the
     ## same value as PEcAn.
-    hostName: pecan.example.com
+    hosts:
+      - pecan.localhost
 
     ## path prefix for all applications (betydb is set below)
     path: /bety/
@@ -106,7 +103,7 @@ rabbitmq:
 
   ingress:
     enabled: false
-    hostName: rabbitmq.example.com
+    hostName: rabbitmq.localhost
     path: /
 
 ## -------------------------------------------------------------------------------
@@ -117,6 +114,13 @@ rabbitmq:
 ## PECAN installation.
 ## ref: http://kubernetes.io/docs/user-guide/ingress/
 ingress:
+  # add ingress routes
+  enabled: false
+
+  # this should probably also contain clusterfqdn
+  hosts:
+    - pecan.localhost
+
   ## path prefix for all applications (betydb is set below)
   path: /
 

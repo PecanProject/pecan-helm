@@ -1,0 +1,99 @@
+{{- if .Values.rstudioUsers -}}
+{{- $fullName := include "pecan.fullname" . -}}
+{{- $name := include "pecan.name" . -}}
+{{- $labels := include "pecan.labels" . -}}
+{{- $rabbitmq := include "pecan.env.rabbitmq" . -}}
+{{- $postgresql := include "pecan.env.postgresql" . -}}
+{{- $env := include "pecan.env.cluster" . -}}
+{{- range .Values.rstudioUsers -}}
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ $fullName }}-{{ .username }}
+  labels:
+    {{- $labels | nindent 4 }}
+spec:
+  serviceName: {{ $name }}-{{ .username }}
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ $name }}-{{ .username }}
+      app.kubernetes.io/instance: {{ $.Release.Name }}
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: {{ $name }}-{{ .username }}
+        app.kubernetes.io/instance: {{ $.Release.Name }}
+    spec:
+    {{- with $.Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+      initContainers:
+        - name: check-rabbitmq
+          image: "{{ $.Values.image.checks }}"
+          imagePullPolicy: {{ $.Values.image.pullPolicy }}
+          env:
+            {{- $rabbitmq | nindent 12 }}
+        - name: check-postgresql
+          image: "{{ $.Values.image.checks }}"
+          imagePullPolicy: {{ $.Values.image.pullPolicy }}
+          env:
+            {{- $postgresql | nindent 12 }}
+      containers:
+        - name: rstudio
+          image: "{{ $.Values.image.project }}/base:{{ $.Values.image.tag | default $.Chart.AppVersion }}"
+          imagePullPolicy: {{ $.Values.image.pullPolicy }}
+          command: 
+            - /work/rstudio.sh
+          env:
+            {{- $rabbitmq | nindent 12 }}
+            {{- $postgresql | nindent 12 }}
+            {{- $env | nindent 12 }}
+            - name: RABBITMQ_MGMT_PATH
+              value: {{ $.Values.rabbitmq.ingress.path | default "/" | quote }}
+            - name: USER
+              value: {{ .username }}
+            - name: PASSWORD
+              value: {{ .password | quote }}
+            - name: KEEP_ENV
+              value: "RABBITMQ_URI RABBITMQ_PREFIX RABBITMQ_PORT FQDN NAME"
+          ports:
+            - name: rstudio
+              containerPort: 8787
+              protocol: TCP
+          volumeMounts:
+            - name: home
+              mountPath: /home/{{ .username }}
+          livenessProbe:
+            tcpSocket:
+              port: rstudio
+          readinessProbe:
+            httpGet:
+              path: /
+              port: rstudio
+          resources:
+            {{- toYaml $.Values.rstudio.resources | nindent 12 }}
+      {{- with $.Values.rstudio.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+    {{- with $.Values.rstudio.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+    {{- with $.Values.rstudio.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+  volumeClaimTemplates:
+    - metadata:
+        name: home
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        storageClassName: {{ $.Values.persistence.storageClass }}
+        resources:
+          requests:
+            storage: {{ .size | default "1Gi" }}
+{{- end }}
+{{- end }}

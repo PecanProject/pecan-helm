@@ -1,18 +1,42 @@
-{{- if .Values.rstudioUsers }}
+{{- if .Values.rstudioUsers -}}
+{{- $fullName := include "pecan.fullname" . -}}
+{{- $name := include "pecan.name" . -}}
+{{- $labels := include "pecan.labels" . -}}
+{{- range .Values.rstudioUsers -}}
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "pecan.fullname" . }}-rstudio
+  name: {{ $fullName }}-{{ .username }}
   labels:
-    {{- include "pecan.labels" . | nindent 4 }}
+    {{- $labels | nindent 4 }}
 spec:
-  type: {{ .Values.rstudio.service.type }}
+  type: ClusterIP
+  type: {{ $.Values.rstudio.service.type }}
   ports:
-    - name: {{ include "pecan.name" . }}-rstudio
-      port: 80
-      targetPort: 80
+    - name: rstudio
+      port: {{ $.Values.rstudio.service.port }}
+      targetPort: rstudio
       protocol: TCP
   selector:
-    app.kubernetes.io/name: {{ include "pecan.name" . }}-rstudio
-    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/name: {{ $name }}-{{ .username }}
+    app.kubernetes.io/instance: {{ $.Release.Name }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ $fullName }}-{{ .username }}-headless
+  labels:
+    {{- $labels | nindent 4 }}
+spec:
+  type: ClusterIP
+  clusterIP: None
+  ports:
+    - name: rstudio
+      port: {{ $.Values.rstudio.service.port }}
+      targetPort: rstudio
+      protocol: TCP
+  selector:
+    app.kubernetes.io/name: {{ $name }}-{{ .username }}
+    app.kubernetes.io/instance: {{ $.Release.Name }}
+{{- end }}
 {{- end }}

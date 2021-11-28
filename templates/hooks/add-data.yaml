@@ -30,7 +30,6 @@ spec:
         - name: check-postgresql
           image: "{{ $.Values.image.checks }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          command: ['./check_postgresql']
           env:
             {{- include "pecan.env.postgresql" . | nindent 12 }}
       containers:

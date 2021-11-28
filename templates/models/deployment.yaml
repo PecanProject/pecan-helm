@@ -29,7 +29,7 @@ spec:
     {{- end }}
       initContainers:
         - name: check-rabbitmq
-          image: "{{ $.Values.image.project }}/check:{{ $.Values.image.tag }}"
+          image: "{{ $.Values.image.checks }}"
           imagePullPolicy: {{ $.Values.image.pullPolicy }}
           env:
             {{ $rabbitmqEnv | nindent 12 }}

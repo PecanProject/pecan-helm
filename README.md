@@ -53,8 +53,11 @@ The following table lists the configurable parameters of the PEcAn chart and the
 | ------------------------------------ | ------------------------------------------------ | -------------------------------------------------------|
 | clustername | clustername is set to the short name that is shown in the pull down menu | demo |
 | clusterfqdn | clusterfqdn is set to the name that is stored in the machines table. This should be a Fully Qualified Domain Name. Probably want to set: betydb.ingress.hostName to the same value. | pecan.localhost |
-| enableIngress | if this is set to true all pieces of pecan will be visible on clusterfqdn. Probably want to set: betydb.ingress.enabled to the same value. | false |
 | initializeData | should be set to true to load demo data.                     | true |
+| rstudioUsers | List of accounts for rstudio users, this is a list of usernames, passwords. | [ ] |
+| ingress.enabled | Add ingress routes for all the components, you probably want to set `bety.ingress.enabled` to be same value. | false |
+| ingress.hosts | List of host names used as part of ingress, you probably want to set clusterfqdn as one of the host names. Any Rstudio instances will use the hosts specified here, and will prefix them with the username, for example user carya, will have hsotname carya.pecan.localhost. | [ "pecan.localhost" ] |
+| ingress.path | prefix added to all of the pods. |  |
 
 Specify each parameter using the `--set key=value[,key=value]` argument to `helm install`. For example,
 
@@ -72,6 +75,19 @@ $ helm install my-release ncsa/pecan --values values.yaml
 
 > **Tip**: You can use the default [values.yaml](values.yaml)
 
+## Rstudio
+
+To enable Rstudio you will need to add users to the rstudioUsers, this is a list with usernames and passwords, for example:
+
+```yaml
+rstudioUsers:
+	- username: carya
+	  password: illinois
+	  size: 1Gi
+```
+
+This will add a Rstudio container with a dedicated 1GB of storage. This container is reachable at http://carya.pecan.localhost/
+
 ## Persistence
 
 PEcAn uses disk storage to store the results of the workflow execution as well as any data downloads as part of the executions.
@@ -86,9 +102,84 @@ PEcAn uses disk storage to store the results of the workflow execution as well a
 $ helm install my-release ncsa/pecan --set persistence.existingClaim=PVC_NAME
 ```
 
+## Testing Locally
+
+If you want to test this helm chart on your local machine, you can either leverage of [docker](https://www.docker.com/) kubernetes, or [rancher desktop](https://rancherdesktop.io/). When using rancher desktop you will need to first setup the shared storage, using `kubectl apply -f`:
+
+```yaml
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pecan-data
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 50Gi
+  accessModes:
+    - ReadWriteMany
+  hostPath:
+    path: "/tmp/data"
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pecan-data
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 50Gi
+```
+
+Next you will install the helm chart with the following local values: `helm upgrade --install --namespace default pecan . --values values-local.yaml`
+
+```yaml
+clusterfqdn: pecan.localhost
+
+rstudioUsers:
+  - username: carya
+    password: illinois
+
+persistence:
+  existingClaim: pecan-data
+
+ingress:
+  enabled: true
+  hosts:
+      - pecan.localhost
+
+betydb:
+  ingress:
+    enabled: true
+    hosts:
+      - pecan.localhost
+  postgresql:
+    persistence:
+      storageClass: local-path
+
+rabbitmq:
+  rabbitmq:
+    username: guest
+    password: guest
+    setUlimitNofiles: false
+    ulimitNofiles: "1024"
+```
+
+
+
 ## ChangeLog
 
+### 0.6.0
+
+- Upgraded ingress routes to networking.k8s.io/v1
+- Set hostnames using ingress.hosts, instead of using clusterfqdn
+- Use ncsa/checks for init containers
+- Fixed web pages
+
 ### 0.5.2
+
 - Removed ED git, image does not exist anymore
 
 ### 0.5.1

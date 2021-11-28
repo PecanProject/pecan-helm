@@ -14,7 +14,7 @@ description: >
 # This is the chart version. This version number should be incremented each time you make changes
 # to the chart and its templates, including the app version.
 # Versions are expected to follow Semantic Versioning (https://semver.org/)
-version: 0.5.2
+version: 0.6.0
 
 # This is the version number of the application being deployed. This version number should be
 # incremented each time you make changes to the application. Versions are not expected to
@@ -48,4 +48,7 @@ annotations:
       url: https://github.com/pecanproject/pecan-helm
   artifacthub.io/license: BSD-3-Clause
   artifacthub.io/changes: |
-    - Removed ED git, image does not exist anymore
+    - Upgraded ingress routes to networking.k8s.io/v1
+    - Set hostnames using ingress.hosts, instead of using clusterfqdn
+    - Use ncsa/checks for init containers
+    - Fixed web pages

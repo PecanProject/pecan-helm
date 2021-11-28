@@ -42,7 +42,7 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - name: pecan-web
-              containerPort: 80
+              containerPort: 8080
               protocol: TCP
           volumeMounts:
             - name: data
