@@ -171,6 +171,10 @@ rabbitmq:
 
 ## ChangeLog
 
+### 0.6.1
+- Update BETY chart
+- update url forb bitnami
+
 ### 0.6.0
 
 - Upgraded ingress routes to networking.k8s.io/v1
