@@ -26,7 +26,7 @@ This chart bootstraps a [PEcAn](https://pecanproject.github.io/) deployment on a
 To install the chart with the release name `my-release`:
 
 ```bash
-$ helm install --name my-release ncsa/pecan
+$ helm install my-release ncsa/pecan
 ```
 
 The command deploys PEcAn on the Kubernetes cluster in the default configuration. The [configuration](#configuration) section lists the parameters that can be configured during installation. This will also install BetyDB as well as some model runners.
