@@ -8,6 +8,8 @@ Climate change science has witnessed an explosion in the amount and types of dat
 
 ```bash
 $ helm repo add ncsa https://opensource.ncsa.illinois.edu/charts/
+$ helm repo add bitnami https://raw.githubusercontent.com/bitnami/charts/pre-2022/bitnami
+$ helm dependency build
 $ helm install pecan ncsa/pecan
 ```
 
