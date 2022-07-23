@@ -101,6 +101,7 @@ rabbitmq:
     #username: guest
     #password: guest
     #erlangCookie: 1234thisisasupersecretoflength32
+    tls: false
 
   ingress:
     enabled: false

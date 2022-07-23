@@ -8,6 +8,8 @@ Climate change science has witnessed an explosion in the amount and types of dat
 
 ```bash
 $ helm repo add ncsa https://opensource.ncsa.illinois.edu/charts/
+$ helm repo add bitnami https://raw.githubusercontent.com/bitnami/charts/pre-2022/bitnami
+$ helm dependency build
 $ helm install pecan ncsa/pecan
 ```
 
@@ -26,7 +28,7 @@ This chart bootstraps a [PEcAn](https://pecanproject.github.io/) deployment on a
 To install the chart with the release name `my-release`:
 
 ```bash
-$ helm install --name my-release ncsa/pecan
+$ helm install my-release ncsa/pecan
 ```
 
 The command deploys PEcAn on the Kubernetes cluster in the default configuration. The [configuration](#configuration) section lists the parameters that can be configured during installation. This will also install BetyDB as well as some model runners.
@@ -170,6 +172,10 @@ rabbitmq:
 
 
 ## ChangeLog
+
+### 0.6.1
+- Update BETY chart
+- update url forb bitnami
 
 ### 0.6.0
 

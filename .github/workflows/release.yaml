@@ -17,7 +17,7 @@ jobs:
       - name: Setup Helm
         run: |
           helm plugin install https://github.com/chartmuseum/helm-push.git
-          helm repo add bitnami https://charts.bitnami.com/bitnami
+          helm repo add bitnami https://raw.githubusercontent.com/bitnami/charts/pre-2022/bitnami
           helm repo add ncsa https://opensource.ncsa.illinois.edu/charts/
           helm dep build
 
