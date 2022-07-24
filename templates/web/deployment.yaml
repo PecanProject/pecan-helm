@@ -20,6 +20,8 @@ spec:
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
     {{- end }}
+      serviceAccountName: {{ include "pecan.fullname" . }}-web
+      automountServiceAccountToken: false
       initContainers:
         - name: check-rabbitmq
           image: "{{ $.Values.image.checks }}"
