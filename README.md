@@ -173,9 +173,14 @@ rabbitmq:
 
 ## ChangeLog
 
+### 0.6.2
+- Update BETY chart
+- Update checks image
+- Load data is now job, not hook, this prevents chart from taking long time to install
+
 ### 0.6.1
 - Update BETY chart
-- update url forb bitnami
+- update url for bitnami
 
 ### 0.6.0
 

@@ -14,7 +14,7 @@ description: >
 # This is the chart version. This version number should be incremented each time you make changes
 # to the chart and its templates, including the app version.
 # Versions are expected to follow Semantic Versioning (https://semver.org/)
-version: 0.6.1
+version: 0.6.2
 
 # This is the version number of the application being deployed. This version number should be
 # incremented each time you make changes to the application. Versions are not expected to
@@ -49,4 +49,5 @@ annotations:
   artifacthub.io/license: BSD-3-Clause
   artifacthub.io/changes: |
     - Update BETY chart
-    - update url forb bitnami
+    - Update checks image
+    - Load data is now job, not hook, this prevents chart from taking long time to install

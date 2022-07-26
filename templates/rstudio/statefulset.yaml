@@ -4,6 +4,7 @@
 {{- $labels := include "pecan.labels" . -}}
 {{- $rabbitmq := include "pecan.env.rabbitmq" . -}}
 {{- $postgresql := include "pecan.env.postgresql" . -}}
+{{- $betydb := .Values.betydb.betyDatabase | quote -}}
 {{- $env := include "pecan.env.cluster" . -}}
 {{- range .Values.rstudioUsers -}}
 apiVersion: apps/v1
@@ -40,6 +41,10 @@ spec:
           imagePullPolicy: {{ $.Values.image.pullPolicy }}
           env:
             {{- $postgresql | nindent 12 }}
+            - name: PGDATABASE
+              value: {{ $betydb }}
+            - name: PG_TABLE
+              value: "yields"
       containers:
         - name: rstudio
           image: "{{ $.Values.image.project }}/base:{{ $.Values.image.tag | default $.Chart.AppVersion }}"

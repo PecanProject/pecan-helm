@@ -1,17 +1,10 @@
-{{- if and .Values.initializeData }}
-# do we want to add .Release.IsInstall to only run on install?
+{{- if .Values.initializeData }}
 apiVersion: batch/v1
 kind: Job
 metadata:
   name: {{ include "pecan.fullname" . }}-load-data
   labels:
     {{- include "pecan.labels" . | nindent 4 }}
-  annotations:
-    # This is what defines this resource as a hook. Without this line, the
-    # job is considered part of the release.
-    "helm.sh/hook": "post-install"
-    "helm.sh/hook-delete-policy": "hook-succeeded,before-hook-creation"
-    "helm.sh/hook-weight": "20"
 spec:
   ttlSecondsAfterFinished: 1
   template:
@@ -32,9 +25,13 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
             {{- include "pecan.env.postgresql" . | nindent 12 }}
+            - name: PGDATABASE
+              value: {{ .Values.betydb.betyDatabase | quote }}
+            - name: PG_TABLE
+              value: "yields"
       containers:
-        - name: post-install-job
-          image: "{{ $.Values.image.checks }}"
+        - name: add-data
+          image: "{{ .Values.image.project }}/data:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           volumeMounts:
             - name: data
