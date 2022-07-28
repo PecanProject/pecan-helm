@@ -10,7 +10,7 @@ kind: Deployment
 metadata:
   name: {{ $fullname }}-model-{{ $key }}
   labels:
-{{ $labels | indent 4 }}
+    {{ $labels | indent 4 }}
 spec:
   replicas: {{ .replicaCount }}
   selector:
