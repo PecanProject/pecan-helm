@@ -74,6 +74,10 @@ models:
     image: model-sipnet-r136
     replicaCount: 1
 
+  ## Resources for models
+  ## ref: https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container
+  resources: {}
+
 ## -------------------------------------------------------------------------------
 ## BETYDB APPLICATION
 ## -------------------------------------------------------------------------------

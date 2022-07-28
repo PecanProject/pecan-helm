@@ -45,10 +45,8 @@ spec:
 {{- if .env }}
             {{- toYaml .env | nindent 12 }}
 {{- end }}
-{{- if .resources }}
           resources:
-            {{- toYaml .resources | nindent 12 }}
-{{- end }}
+            {{- toYaml .Values.models.resources | nindent 12 }}
       volumes:
         - name: data
           persistentVolumeClaim:
