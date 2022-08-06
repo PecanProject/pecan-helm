@@ -56,22 +56,32 @@ models:
     enabled: true
     image: model-biocro-0.95
     replicaCount: 1
+    minReplicaCount: 1
+    maxReplicaCount: 5
   ed2-2-2-0:
     enabled: true
     image: model-ed2-2.2.0
     replicaCount: 1
+    minReplicaCount: 1
+    maxReplicaCount: 5
   maespa-git:
     enabled: true
     image: model-maespa-git
     replicaCount: 1
+    minReplicaCount: 1
+    maxReplicaCount: 5
   sipnet-git:
     enabled: true
     image: model-sipnet-git
     replicaCount: 1
+    minReplicaCount: 1
+    maxReplicaCount: 5
   sipnet-136:
     enabled: true
     image: model-sipnet-r136
     replicaCount: 1
+    minReplicaCount: 1
+    maxReplicaCount: 5
 
 ## -------------------------------------------------------------------------------
 ## BETYDB APPLICATION
@@ -346,3 +356,12 @@ affinity: {}
 ## ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity
 hooks:
   affinity: {}
+
+## -------------------------------------------------------------------------------
+## KEDA RabbitMQ Configuration
+## -------------------------------------------------------------------------------
+
+keda:
+  rabbitmq:
+    secretName: "rabbitmq"
+    host: ""
