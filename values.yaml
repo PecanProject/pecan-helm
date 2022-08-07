@@ -49,6 +49,8 @@ rstudioUsers: []
 ##                will use the same as image.tag
 ## replicaCount : number - the number of this extractor to install
 ## env          : additional environment variables to pass to extractor.
+## minReplicaCount          : additional environment variables to pass to extractor.
+## maxReplicaCount          : additional environment variables to pass to extractor.
 ## you can also specify resources, nodeSelector, affinity and tolerations.
 ##
 ## the image that is pulled will be create based on project/image:tag.
@@ -57,22 +59,32 @@ models:
     enabled: true
     image: model-biocro-0.95
     replicaCount: 1
+    minReplicaCount: 1
+    maxReplicaCount: 5
   ed2-2-2-0:
     enabled: true
     image: model-ed2-2.2.0
     replicaCount: 1
+    minReplicaCount: 1
+    maxReplicaCount: 5
   maespa-git:
     enabled: true
     image: model-maespa-git
     replicaCount: 1
+    minReplicaCount: 1
+    maxReplicaCount: 5
   sipnet-git:
     enabled: true
     image: model-sipnet-git
     replicaCount: 1
+    minReplicaCount: 1
+    maxReplicaCount: 5
   sipnet-136:
     enabled: true
     image: model-sipnet-r136
     replicaCount: 1
+    minReplicaCount: 1
+    maxReplicaCount: 5
 
 ## -------------------------------------------------------------------------------
 ## BETYDB APPLICATION
@@ -348,3 +360,12 @@ affinity: {}
 ## ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity
 hooks:
   affinity: {}
+
+## -------------------------------------------------------------------------------
+## KEDA RabbitMQ Configuration
+## -------------------------------------------------------------------------------
+
+keda:
+  rabbitmq:
+    name: "rabbitmq"
+    host: ""  

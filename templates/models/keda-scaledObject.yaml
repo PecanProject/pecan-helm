@@ -1,0 +1,31 @@
+{{- if .Values.models }}
+{{- $fullname := include "pecan.fullname" . }}
+{{- range $key, $val := .Values.models }}
+{{- if .enabled }}
+---
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: "{{ $fullname }}-model-{{ $key }}-scaledobject"
+  namespace: default
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: {{ $fullname }}-model-{{ $key }}
+    envSourceContainerName: {{ $.Chart.Name }}-model-{{ $key }}
+  minReplicaCount: {{ .minReplicaCount }}
+  maxReplicaCount: {{ .maxReplicaCount }}
+  idleReplicaCount: {{ .replicaCount }}
+  triggers:
+  - type: rabbitmq
+    metadata:
+      protocol: http
+      queueName: "{{ .queuename }}"
+      mode: QueueLength
+      value: {{ $fullname }}-model-{{ $key }}
+    authenticationRef:
+      name: {{ .Release.Name }}-{{ $.Values.keda.rabbitmq.name }}-triger-auth
+{{- end }}
+{{- end }}
+{{- end }}
