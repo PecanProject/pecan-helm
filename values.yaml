@@ -364,4 +364,4 @@ hooks:
 keda:
   rabbitmq:
     secretName: "rabbitmq"
-    host: ""
+    host: ""  ## Base64 rabbitmq host path in the form of PROTOCOL://<RABBITMQ_USER>:RABBITMQ_PASSWORD@RABBITMQ_HOST/vhost
