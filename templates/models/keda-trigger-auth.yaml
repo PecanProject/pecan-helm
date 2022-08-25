@@ -1,10 +1,10 @@
 apiVersion: keda.sh/v1alpha1
 kind: TriggerAuthentication
 metadata:
-  name: {{ .Release.Name }}-{{ .Values.keda.rabbitmq.name }}-triger-auth
+  name: {{ .Values.keda.rabbitmq.name }}-triger-auth
   namespace: default
 spec:
   secretTargetRef:
     - parameter: host
-      name: {{ .Release.Name }}-{{ .Values.keda.rabbitmq.name }}-secret
-      key: {{ .Values.keda.rabbbitmq.host }}
+      name: {{ .Values.keda.rabbitmq.name }}-secret
+      key: host

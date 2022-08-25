@@ -25,7 +25,7 @@ spec:
       mode: QueueLength
       value: {{ $fullname }}-model-{{ $key }}
     authenticationRef:
-      name: {{ .Release.Name }}-{{ $.Values.keda.rabbitmq.name }}-triger-auth
+      name: {{ $.Values.keda.rabbitmq.name }}-triger-auth
 {{- end }}
 {{- end }}
 {{- end }}
