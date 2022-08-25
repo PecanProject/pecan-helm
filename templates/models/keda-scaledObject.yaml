@@ -16,14 +16,14 @@ spec:
     envSourceContainerName: {{ $.Chart.Name }}-model-{{ $key }}
   minReplicaCount: {{ .minReplicaCount }}
   maxReplicaCount: {{ .maxReplicaCount }}
-  idleReplicaCount: {{ .replicaCount }}
+  idleReplicaCount: 0
   triggers:
   - type: rabbitmq
     metadata:
       protocol: http
       queueName: "{{ .queuename }}"
-      mode: QueueLength
-      value: {{ $fullname }}-model-{{ $key }}
+      mode: MessageRate
+      value: "10"
     authenticationRef:
       name: {{ $.Values.keda.rabbitmq.name }}-triger-auth
 {{- end }}
