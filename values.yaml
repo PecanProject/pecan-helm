@@ -56,35 +56,35 @@ models:
     enabled: true
     image: model-biocro-0.95
     replicaCount: 1
-    minReplicaCount: 1
+    minReplicaCount: 2
     maxReplicaCount: 5
     queuename: BIOCRO_0.95
   ed2-2-2-0:
     enabled: true
     image: model-ed2-2.2.0
     replicaCount: 1
-    minReplicaCount: 1
+    minReplicaCount: 2
     maxReplicaCount: 5
     queuename: ED2_2.2.0
   maespa-git:
     enabled: true
     image: model-maespa-git
     replicaCount: 1
-    minReplicaCount: 1
+    minReplicaCount: 2
     maxReplicaCount: 5
     queuename: MAESPA_git
   sipnet-git:
     enabled: true
     image: model-sipnet-git
     replicaCount: 1
-    minReplicaCount: 1
+    minReplicaCount: 2
     maxReplicaCount: 5
     queuename: SIPNET_git
   sipnet-136:
     enabled: true
     image: model-sipnet-r136
     replicaCount: 1
-    minReplicaCount: 1
+    minReplicaCount: 2
     maxReplicaCount: 5
     queuename: SIPNET_r136
 
@@ -369,4 +369,7 @@ hooks:
 keda:
   rabbitmq:
     name: "rabbitmq"
-    host: ""  ## Base64 rabbitmq host path in the form of PROTOCOL://<RABBITMQ_USER>:RABBITMQ_PASSWORD@RABBITMQ_HOST/vhost
+    ## Base64 rabbitmq host path in the form of PROTOCOL://<RABBITMQ_USER>:RABBITMQ_PASSWORD@RABBITMQ_HOST/vhost
+    ## e.g. echo -n 'http://guest:guest@pecan-rabbitmq.default:15672//' | base64
+    host: aHR0cDovL2d1ZXN0Omd1ZXN0QHBlY2FuLXJhYmJpdG1xLmRlZmF1bHQ6MTU2NzIvLw==
+
