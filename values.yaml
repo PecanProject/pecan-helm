@@ -56,35 +56,35 @@ models:
     enabled: true
     image: model-biocro-0.95
     replicaCount: 1
-    minReplicaCount: 2
+    minReplicaCount: 1
     maxReplicaCount: 5
     queuename: BIOCRO_0.95
   ed2-2-2-0:
     enabled: true
     image: model-ed2-2.2.0
     replicaCount: 1
-    minReplicaCount: 2
+    minReplicaCount: 1
     maxReplicaCount: 5
     queuename: ED2_2.2.0
   maespa-git:
     enabled: true
     image: model-maespa-git
     replicaCount: 1
-    minReplicaCount: 2
+    minReplicaCount: 1
     maxReplicaCount: 5
     queuename: MAESPA_git
   sipnet-git:
     enabled: true
     image: model-sipnet-git
     replicaCount: 1
-    minReplicaCount: 2
+    minReplicaCount: 1
     maxReplicaCount: 5
     queuename: SIPNET_git
   sipnet-136:
     enabled: true
     image: model-sipnet-r136
     replicaCount: 1
-    minReplicaCount: 2
+    minReplicaCount: 1
     maxReplicaCount: 5
     queuename: SIPNET_r136
 

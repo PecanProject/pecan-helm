@@ -16,7 +16,6 @@ spec:
     envSourceContainerName: {{ $.Chart.Name }}-model-{{ $key }}
   minReplicaCount: {{ .minReplicaCount }}
   maxReplicaCount: {{ .maxReplicaCount }}
-  idleReplicaCount: 1
   triggers:
   - type: rabbitmq
     metadata:
