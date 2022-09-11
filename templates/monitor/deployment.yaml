@@ -35,6 +35,11 @@ spec:
               value: {{ .Values.betydb.betyDatabase | quote }}
             - name: PG_TABLE
               value: "yields"
+            - name: BETYPASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "pecan.betydb.secretName" . }}
+                  key: {{ include "pecan.betydb.betydbPasswordKey" . }}  
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.project }}/monitor:{{ .Values.image.tag | default .Chart.AppVersion }}"
@@ -45,6 +50,11 @@ spec:
             {{- include "pecan.env.cluster" . | nindent 12 }}
             - name: RABBITMQ_MGMT_PATH
               value: {{ .Values.rabbitmq.ingress.path | default "/" | quote }}
+            - name: BETYPASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "pecan.betydb.secretName" . }}
+                  key: {{ include "pecan.betydb.betydbPasswordKey" . }}  
           ports:
             - name: pecan-monitor
               containerPort: 9999

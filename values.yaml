@@ -91,6 +91,12 @@ betydb:
     ## path prefix for all applications (betydb is set below)
     path: /bety/
 
+  ## Use existing bety password as secret
+  ## Create secret pecan-betydb-old with key betyPassword
+  auth:
+    existingSecret: ""
+    secretKeys:
+      betydbPasswordKey: ""
 ## -------------------------------------------------------------------------------
 ## RABBITMQ APPLICATION
 ## -------------------------------------------------------------------------------

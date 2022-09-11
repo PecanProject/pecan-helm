@@ -72,6 +72,32 @@ RabbitMQ URI environment
 {{- end -}}
 
 {{/*
+Get the betydb secret.
+*/}}
+{{- define "pecan.betydb.secretName" -}}
+{{- if .Values.betydb.auth.existingSecret -}}
+    {{- printf "%s" (tpl .Values.betydb.auth.existingSecret $) -}}
+{{- else -}}
+    {{ .Release.Name }}-betydb
+{{- end -}}
+{{- end -}}
+
+{{/*
+Get the betyPassword key.
+*/}}
+{{- define "pecan.betydb.betydbPasswordKey" -}}
+{{- if .Values.betydb.auth.existingSecret }}
+    {{- if .Values.betydb.auth.secretKeys.betydbPasswordKey }}
+        {{- printf "%s" (tpl .Values.betydb.auth.secretKeys.betydbPasswordKey $) -}}
+    {{- else -}}
+        {{- "betyPassword" }}
+    {{- end -}}
+{{- else -}}
+    {{- "betyPassword" }}
+{{- end -}}
+{{- end -}}
+
+{{/*
 Postgresql Environment for postgres
 */}}
 {{- define "pecan.env.postgresql" -}}
@@ -92,11 +118,6 @@ Postgresql Environment for postgres
       key: postgresql-password
 - name: BETYUSER
   value: {{ .Values.betydb.betyUser | quote }}
-- name: BETYPASSWORD
-  valueFrom:
-    secretKeyRef:
-      name: {{ .Release.Name }}-betydb
-      key: betyPassword
 - name: BETYDATABASE
   value: {{ .Values.betydb.betyDatabase | quote }}
 {{- end -}}

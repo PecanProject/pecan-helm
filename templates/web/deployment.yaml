@@ -35,6 +35,11 @@ spec:
               value: {{ .Values.betydb.betyDatabase | quote }}
             - name: PG_TABLE
               value: "yields"
+            - name: BETYPASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "pecan.betydb.secretName" . }}
+                  key: {{ include "pecan.betydb.betydbPasswordKey" . }}  
         - name: check-betydb
           image: "{{ $.Values.image.checks }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
@@ -60,6 +65,11 @@ spec:
                 secretKeyRef:
                   name: {{ .Release.Name }}-betydb
                   key: secretKey
+            - name: BETYPASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "pecan.betydb.secretName" . }}
+                  key: {{ include "pecan.betydb.betydbPasswordKey" . }}  
           livenessProbe:
             tcpSocket:
               port: pecan-web

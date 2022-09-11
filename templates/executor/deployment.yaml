@@ -35,6 +35,11 @@ spec:
               value: {{ .Values.betydb.betyDatabase | quote }}
             - name: PG_TABLE
               value: "yields"
+            - name: BETYPASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "pecan.betydb.secretName" . }}
+                  key: {{ include "pecan.betydb.betydbPasswordKey" . }}  
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.project }}/executor:{{ .Values.image.tag | default .Chart.AppVersion }}"
@@ -51,6 +56,11 @@ spec:
                 secretKeyRef:
                   name: {{ .Release.Name }}-betydb
                   key: secretKey
+            - name: BETYPASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "pecan.betydb.secretName" . }}
+                  key: {{ include "pecan.betydb.betydbPasswordKey" . }}  
           resources:
             {{- toYaml .Values.executor.resources | nindent 12 }}
       volumes:
