@@ -97,7 +97,6 @@ Get the betyPassword key.
 {{- end -}}
 {{- end -}}
 
-
 {{/*
 Get the betydb encryption secret key.
 */}}

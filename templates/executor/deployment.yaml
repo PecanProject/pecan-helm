@@ -54,7 +54,7 @@ spec:
             - name: SECRET_KEY_BASE
               valueFrom:
                 secretKeyRef:
-                  name: {{ include "betydbb.secretName" . }}
+                  name: {{ include "pecan.betydb.secretName" . }}
                   key: {{ include "pecan.betydb.betydbEncryptionSecretKey" . }}
             - name: BETYPASSWORD
               valueFrom:
