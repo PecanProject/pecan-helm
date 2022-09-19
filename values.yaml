@@ -112,6 +112,11 @@ rabbitmq:
     enabled: false
     hostName: rabbitmq.localhost
     path: /
+  existingErlangSecret: ""
+  existingPasswordSecret: ""
+  secretKeys: 
+    erlangCookieSecretKey: ""
+    rabbitmqPasswordSecretKey: ""
 
 ## -------------------------------------------------------------------------------
 ## INGRESS RULES

@@ -50,6 +50,11 @@ spec:
             {{- include "pecan.env.cluster" . | nindent 12 }}
             - name: RABBITMQ_MGMT_PATH
               value: {{ .Values.rabbitmq.ingress.path | default "/" | quote }}
+            - name: RABBITMQ_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "pecan.rabbitmq.secretName" . }}
+                  key: {{ include "pecan.rabbitmq.rabbitmqPasswordSecretKey" . }}  
             - name: BETYPASSWORD
               valueFrom:
                 secretKeyRef:

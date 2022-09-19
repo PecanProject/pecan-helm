@@ -59,14 +59,61 @@ Cluster environment
 {{- end -}}
 
 {{/*
+Get the rabbitmq secret.
+*/}}
+{{- define "pecan.rabbitmq.secretName" -}}
+{{- if .Values.rabbitmq.existingPasswordSecret -}}
+    {{- printf "%s" (tpl .Values.rabbitmq.existingPasswordSecret $) -}}
+{{- else -}}
+    {{ .Release.Name }}-rabbitmq
+{{- end -}}
+{{- end -}}
+
+{{/*
+Get the rabbitmq secret key.
+*/}}
+{{- define "pecan.rabbitmq.rabbitmqPasswordSecretKey" -}}
+{{- if .Values.rabbitmq.existingPasswordSecret }}
+    {{- if .Values.rabbitmq.secretKeys.rabbitmqPasswordSecretKey }}
+        {{- printf "%s" (tpl .Values.rabbitmq.secretKeys.rabbitmqPasswordSecretKey $) -}}
+    {{- else -}}
+        {{- "rabbitmq-password" }}
+    {{- end -}}
+{{- else -}}
+    {{- "rabbitmq-password" }}
+{{- end -}}
+{{- end -}}
+
+{{/*
+Get the erlang secret.
+*/}}
+{{- define "pecam.rabbitmq.secretErlangName" -}}
+    {{- if .Values.rabbitmq.existingErlangSecret -}}
+        {{- printf "%s" .Values.rabbitmq.existingErlangSecret -}}
+    {{- else -}}
+        {{ .Release.Name }}-rabbitmq
+    {{- end -}}
+{{- end -}}
+
+{{/*
+Get the rabbitmq erlangCookie Secret key.
+*/}}
+{{- define "pecan.rabbitmq.erlangCookieSecretKey" -}}
+{{- if .Values.rabbitmq.existingErlangSecret }}
+    {{- if .Values.rabbitmq.secretKeys.erlangCookieSecretKey }}
+        {{- printf "%s" (tpl .Values.rabbitmq.secretKeys.erlangCookieSecretKey $) -}}
+    {{- else -}}
+        {{- "rabbitmq-erlang-cookie" }}
+    {{- end -}}
+{{- else -}}
+    {{- "rabbitmq-erlang-cookie" }}
+{{- end -}}
+{{- end -}}
+
+{{/*
 RabbitMQ URI environment
 */}}
 {{- define "pecan.env.rabbitmq" -}}
-- name: RABBITMQ_PASSWORD
-  valueFrom:
-    secretKeyRef:
-      name: {{ .Release.Name }}-rabbitmq
-      key: rabbitmq-password
 - name: RABBITMQ_URI
   value: "amqp://{{ .Values.rabbitmq.rabbitmq.username }}:$(RABBITMQ_PASSWORD)@{{ .Release.Name }}-rabbitmq/%2F"
 {{- end -}}

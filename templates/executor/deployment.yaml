@@ -26,6 +26,11 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
             {{- include "pecan.env.rabbitmq" . | nindent 12 }}
+            - name: RABBITMQ_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "pecan.rabbitmq.secretName" . }}
+                  key: {{ include "pecan.rabbitmq.rabbitmqPasswordSecretKey" . }}            
         - name: check-postgresql
           image: "{{ $.Values.image.checks }}"
           imagePullPolicy: {{ $.Values.image.pullPolicy }}
