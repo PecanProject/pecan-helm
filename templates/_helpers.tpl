@@ -97,6 +97,22 @@ Get the betyPassword key.
 {{- end -}}
 {{- end -}}
 
+
+{{/*
+Get the betydb encryption secret key.
+*/}}
+{{- define "pecan.betydb.betydbEncryptionSecretKey" -}}
+{{- if .Values.betydb.auth.existingSecret }}
+    {{- if .Values.betydb.auth.secretKeys.betydbEncryptionKey }}
+        {{- printf "%s" (tpl .Values.betydb.auth.secretKeys.betydbEncryptionKey $) -}}
+    {{- else -}}
+        {{- "secretKey" }}
+    {{- end -}}
+{{- else -}}
+    {{- "secretKey" }}
+{{- end -}}
+{{- end -}}
+
 {{/*
 Postgresql Environment for postgres
 */}}

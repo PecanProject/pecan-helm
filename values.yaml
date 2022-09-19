@@ -97,6 +97,7 @@ betydb:
     existingSecret: ""
     secretKeys:
       betydbPasswordKey: ""
+      betydbEncryptionKey: ""
 ## -------------------------------------------------------------------------------
 ## RABBITMQ APPLICATION
 ## -------------------------------------------------------------------------------
