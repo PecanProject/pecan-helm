@@ -4,6 +4,6 @@ dependencies:
   version: 6.28.1
 - name: betydb
   repository: https://opensource.ncsa.illinois.edu/charts/
-  version: 0.5.1
+  version: 0.5.5
 digest: sha256:c293d9887cf905d173b510200b73fdeee75707a67968cb6756132e63c3df10c6
 generated: "2022-06-22T22:39:53.650221-05:00"
