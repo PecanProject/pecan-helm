@@ -31,6 +31,10 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
             {{- include "pecan.env.postgresql" . | nindent 12 }}
+            - name: PGDATABASE
+              value: {{ .Values.betydb.betyDatabase | quote }}
+            - name: PG_TABLE
+              value: "yields"
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.project }}/monitor:{{ .Values.image.tag | default .Chart.AppVersion }}"

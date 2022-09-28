@@ -51,4 +51,5 @@ annotations:
   artifacthub.io/license: BSD-3-Clause
   artifacthub.io/changes: |
     - Update BETY chart
-    - update url forb bitnami
+    - Update checks image
+    - Load data is now job, not hook, this prevents chart from taking long time to install

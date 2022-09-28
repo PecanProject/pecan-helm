@@ -5,7 +5,7 @@
 image:
   project: pecan
   tag: null
-  checks: "ncsa/checks:1.0.0"
+  checks: "ncsa/checks:1.0.1"
   pullPolicy: IfNotPresent
 
 imagePullSecrets: []
@@ -98,10 +98,9 @@ betydb:
 
 rabbitmq:
   rabbitmq:
-    #username: guest
-    #password: guest
-    #erlangCookie: 1234thisisasupersecretoflength32
-    tls: false
+    username: guest
+    password: guest
+    erlangCookie: 1234thisisasupersecretoflength32
 
   ingress:
     enabled: false
