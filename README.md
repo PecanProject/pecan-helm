@@ -58,7 +58,7 @@ The following table lists the configurable parameters of the PEcAn chart and the
 | initializeData | should be set to true to load demo data.                     | true |
 | rstudioUsers | List of accounts for rstudio users, this is a list of usernames, passwords. | [ ] |
 | ingress.enabled | Add ingress routes for all the components, you probably want to set `bety.ingress.enabled` to be same value. | false |
-| ingress.hosts | List of host names used as part of ingress, you probably want to set clusterfqdn as one of the host names. Any Rstudio instances will use the hosts specified here, and will prefix them with the username, for example user carya, will have hsotname carya.pecan.localhost. | [ "pecan.localhost" ] |
+| ingress.hosts | List of host names used as part of ingress, you probably want to set clusterfqdn as one of the host names. Any Rstudio instances will use the hosts specified here, and will prefix them with the username, for example user carya, will have hostname carya.pecan.localhost. | [ "pecan.localhost" ] |
 | ingress.path | prefix added to all of the pods. |  |
 
 Specify each parameter using the `--set key=value[,key=value]` argument to `helm install`. For example,
