@@ -83,6 +83,8 @@ Postgresql Environment for postgres
 {{- end }}
 - name: PGPORT
   value: {{ .Values.betydb.postgresql.service.port | default 5432 | quote }}
+- name: PGDATABASE
+  value: {{ .Values.betydb.postgresql.postgresqlDatabase | default "postgres" | quote }}
 - name: PGUSER
   value: {{ .Values.betydb.postgresql.postgresqlUser | default "postgres" | quote }}
 - name: PGPASSWORD
