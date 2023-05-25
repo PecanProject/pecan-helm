@@ -26,6 +26,11 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
             {{- include "pecan.env.rabbitmq" . | nindent 12 }}
+            - name: RABBITMQ_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "pecan.rabbitmq.secretName" . }}
+                  key: {{ include "pecan.rabbitmq.rabbitmqPasswordSecretKey" . }}  
         - name: check-postgresql
           image: "{{ $.Values.image.checks }}"
           imagePullPolicy: {{ $.Values.image.pullPolicy }}
@@ -35,6 +40,11 @@ spec:
               value: {{ .Values.betydb.betyDatabase | quote }}
             - name: PG_TABLE
               value: "yields"
+            - name: BETYPASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "pecan.betydb.secretName" . }}
+                  key: {{ include "pecan.betydb.betydbPasswordKey" . }}  
         - name: check-betydb
           image: "{{ $.Values.image.checks }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
@@ -55,11 +65,21 @@ spec:
             {{- include "pecan.env.rabbitmq" . | nindent 12 }}
             {{- include "pecan.env.postgresql" . | nindent 12 }}
             {{- include "pecan.env.cluster" . | nindent 12 }}
+            - name: RABBITMQ_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "pecan.rabbitmq.secretName" . }}
+                  key: {{ include "pecan.rabbitmq.rabbitmqPasswordSecretKey" . }}  
             - name: SECRET_KEY_BASE
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Release.Name }}-betydb
-                  key: secretKey
+                  name: {{ include "pecan.betydb.secretName" . }}
+                  key: {{ include "pecan.betydb.betydbEncryptionSecretKey" . }}
+            - name: BETYPASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "pecan.betydb.secretName" . }}
+                  key: {{ include "pecan.betydb.betydbPasswordKey" . }}  
           livenessProbe:
             tcpSocket:
               port: pecan-web

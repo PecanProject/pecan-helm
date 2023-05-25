@@ -42,6 +42,11 @@ spec:
               mountPath: /data
           env:
             {{ $rabbitmqEnv | nindent 12 }}
+            - name: RABBITMQ_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "pecan.rabbitmq.secretName" . }}
+                  key: {{ include "pecan.rabbitmq.rabbitmqPasswordSecretKey" . }}            
 {{- if .env }}
             {{- toYaml .env | nindent 12 }}
 {{- end }}

@@ -36,6 +36,11 @@ spec:
           imagePullPolicy: {{ $.Values.image.pullPolicy }}
           env:
             {{- $rabbitmq | nindent 12 }}
+            - name: RABBITMQ_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "pecan.rabbitmq.secretName" . }}
+                  key: {{ include "pecan.rabbitmq.rabbitmqPasswordSecretKey" . }}  
         - name: check-postgresql
           image: "{{ $.Values.image.checks }}"
           imagePullPolicy: {{ $.Values.image.pullPolicy }}
@@ -45,6 +50,11 @@ spec:
               value: {{ $betydb }}
             - name: PG_TABLE
               value: "yields"
+            - name: BETYPASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "pecan.betydb.secretName" . }}
+                  key: {{ include "pecan.betydb.betydbPasswordKey" . }}  
       containers:
         - name: rstudio
           image: "{{ $.Values.image.project }}/base:{{ $.Values.image.tag | default $.Chart.AppVersion }}"
@@ -57,12 +67,22 @@ spec:
             {{- $env | nindent 12 }}
             - name: RABBITMQ_MGMT_PATH
               value: {{ $.Values.rabbitmq.ingress.path | default "/" | quote }}
+            - name: RABBITMQ_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "pecan.rabbitmq.secretName" . }}
+                  key: {{ include "pecan.rabbitmq.rabbitmqPasswordSecretKey" . }}  
             - name: USER
               value: {{ .username }}
             - name: PASSWORD
               value: {{ .password | quote }}
             - name: KEEP_ENV
               value: "RABBITMQ_URI RABBITMQ_PREFIX RABBITMQ_PORT FQDN NAME"
+            - name: BETYPASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "pecan.betydb.secretName" . }}
+                  key: {{ include "pecan.betydb.betydbPasswordKey" . }}  
           ports:
             - name: rstudio
               containerPort: 8787
