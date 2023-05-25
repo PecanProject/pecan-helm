@@ -9,7 +9,10 @@ Climate change science has witnessed an explosion in the amount and types of dat
 ```bash
 $ helm repo add ncsa https://opensource.ncsa.illinois.edu/charts/
 $ helm repo add bitnami https://raw.githubusercontent.com/bitnami/charts/pre-2022/bitnami
+$ helm repo add kedacore https://kedacore.github.io/charts
+$ helm repo update
 $ helm dependency build
+$ helm install keda kedacore/keda
 $ helm install pecan ncsa/pecan
 ```
 
