@@ -1,0 +1,17 @@
+# We bind the role to the pecan-models service account.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: {{ include "pecan.fullname" . }}-models
+  labels:
+    {{- include "pecan.labels" . | nindent 4 }}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: {{ include "pecan.fullname" . }}-models
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: {{ include "pecan.fullname" . }}-models
+subjects:
+- kind: ServiceAccount
+  name: {{ include "pecan.fullname" . }}-models
