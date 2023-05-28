@@ -19,12 +19,14 @@ version: 0.6.2
 # This is the version number of the application being deployed. This version number should be
 # incremented each time you make changes to the application. Versions are not expected to
 # follow Semantic Versioning. They should reflect the version the application is using.
-appVersion: "1.7.2"
+appVersion: "1.7.3"
 
 # List of people that maintain this helm chart.
 maintainers:
   - name: Rob Kooper
     email: kooper@illinois.edu
+  - name: Sagar Utekar
+    email: sagarutekar2366@gmail.com
 
 # location of source code
 sources:
